@@ -9,12 +9,17 @@ Your quote for <%= @asset[0..5] %> is: bid:<span id="bid"><%= @bid %></span>ask:
 <%= flash[:notice] %>
 <% end %>
 
-
 <form action="/" method="post">
-  <button name="buy" type="submit" id="buy" value="<%= @ask %> ">Buy</button>
   <button name="sell" type="submit" id="sell" value="<%= @bid %>">Sell</button>
+  <button name="buy" type="submit" id="buy" value="<%= @ask %> ">Buy</button>
 </form>
 
 <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="../js/quotes.js"></script>
+<script src="../js/interface.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+<div id="table_div"></div>
 
 </html>
