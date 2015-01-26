@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <h1> Welcome player </h1>
-Your quote for <%= @asset[0..5] %> is: bid:<span id="bid"><%= @bid %> </span>ask:<span id="ask"><%= @ask %></span><br> Last trade at:<%= @last_trade_price %><br>
+Your quote for <%= @asset[0..5] %> is: bid:<span id="bid"><%= @bid %></span>ask:<span id="ask"><%= @ask %></span><br> Last trade at:<%= @last_trade_price %><br>
 
 <div id="images"></div>
 
@@ -11,9 +11,9 @@ Your quote for <%= @asset[0..5] %> is: bid:<span id="bid"><%= @bid %> </span>ask
 
 
 <form action="/" method="post">
-  <button name="buy" type="submit" id="buy" value="buy">Buy</button>
-  <button name="sell" type="submit" id="sell" value="sell">Sell</button>
-</form>  
+  <button name="buy" type="submit" id="buy" value="<%= @askexit %> ">Buy</button>
+  <button name="sell" type="submit" id="sell" value="<%= @bid %>">Sell</button>
+</form>
 
 <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 

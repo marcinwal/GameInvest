@@ -18,9 +18,18 @@ RSpec.configure do |config|
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
-end
 
+    config.before(:suite) do
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.clean_with(:truncation)
+    end
 
-get '/' do
-  erb :index
+    config.before(:each) do
+      DatabaseCleaner.start
+    end
+
+    config.after(:each) do  #cleaning db after cleaning
+      DatabaseCleaner.clean
+    end
+
 end

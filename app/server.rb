@@ -6,6 +6,8 @@ require 'sinatra/partial'
 require 'mailgun'
 require 'yahoo_finance'
 require_relative 'helpers/application'
+require_relative 'data_mapper_setup'
+
 
 require 'byebug'
 
