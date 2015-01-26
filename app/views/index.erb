@@ -5,6 +5,20 @@ Your quote for <%= @asset[0..5] %> is: bid:<span id="bid"><%= @bid %></span>ask:
 
 <div id="images"></div>
 
+<% if flash[:notice] && !flash[:notice].empty? %>
+
+<%= flash[:notice] %>
+
+<% end %>
+
+
+<form method="post" action="/">
+  <button type="button" id="buy" value="buy">Buy</button>
+  <button type="button" id="sell" value="sell">Sell</button>
+
+</form>
+
+
 <script type="text/javascript">
 
 function getData() {

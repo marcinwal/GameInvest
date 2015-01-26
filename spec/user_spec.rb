@@ -6,4 +6,10 @@ require 'spec_helper'
       visit '/'
       expect(page).to have_content("bid")
     end
+
+    scenario "should see two buttons" do
+      visit '/'
+      click_button("Buy")
+      expect(page).to have_content("You just bought.")
+    end
   end
