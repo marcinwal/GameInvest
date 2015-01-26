@@ -3,7 +3,7 @@ require './app/data_mapper_setup'
 
 env = ENV["RACK_ENV"] || 'development'
 
-DataMapper.setup(:default, "postgres://localhost/chitter_#{env}")
+DataMapper.setup(:default, "postgres://localhost/game_#{env}")
 DataMapper.finalize
 
 task :auto_upgrade do

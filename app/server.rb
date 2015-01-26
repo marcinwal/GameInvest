@@ -9,15 +9,15 @@ require_relative 'helpers/application'
 
 require 'byebug'
 
-set :partial_template_engine, :erb
-set :public, 'public'
-use Rack::Flash
+use Rack::Flash, :accessorize => [:notice, :error]
 use Rack::MethodOverride
 
+set :partial_template_engine, :erb
+set :public, 'public'
 
+enable :sessions
 
 get '/' do
-
   @asset = "EURUSD=X"
   price = get_quote(@asset)
   @bid,@ask = price.bid,price.ask
@@ -26,8 +26,7 @@ get '/' do
 end
 
 post '/' do
-
-  flash[:notice] = "You just bought."
-  puts params
-  erb :index
+   flash[:notice] = "You just bought." if params.first[0] == 'buy'
+   flash[:notice] = "You just sold." if params.first[0] == "sell"
+   redirect ('/')
 end

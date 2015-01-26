@@ -7,9 +7,15 @@ require 'spec_helper'
       expect(page).to have_content("bid")
     end
 
-    scenario "should see two buttons" do
+    scenario "should see buy button" do
       visit '/'
       click_button("Buy")
       expect(page).to have_content("You just bought.")
+    end
+
+    scenario "should see sell button" do
+      visit '/'
+      click_button("Sell")
+      expect(page).to have_content("You just sold.")
     end
   end
