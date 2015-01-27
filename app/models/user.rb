@@ -23,6 +23,7 @@ class User
   end
 
   def self.authenticate_email(email, password)
+    # beybug
     user = first(:email => email)
     if user && BCrypt::Password.new(user.password_digest) == password
       user

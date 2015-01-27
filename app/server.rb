@@ -68,7 +68,7 @@ post '/newuser' do
 end
 
 
-post '/signin' do
+post '/login' do
   email,password = params[:email],params[:password]
   user = User.authenticate_email(email,password)
   if !user
