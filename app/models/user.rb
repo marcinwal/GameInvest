@@ -31,14 +31,14 @@ class User
     end
   end
 
-  def self.authenticate_username(username, password)
-    user = first(:username => username)
-    if user && BCrypt::Password.new(user.password_digest) == password
-      user
-    else
-      nil
-    end
-  end
+  # def self.authenticate_username(username, password)
+  #   user = first(:username => username)
+  #   if user && BCrypt::Password.new(user.password_digest) == password
+  #     user
+  #   else
+  #     nil
+  #   end
+  # end
 
   def self.generate_token
     (1..64).map{('A'..'Z').to_a.sample}.join

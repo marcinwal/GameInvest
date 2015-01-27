@@ -14,6 +14,27 @@ Your quote for <%= @asset[0..5] %> is: bid:<span id="bid"><%= @bid %></span>ask:
   <button name="buy" type="submit" id="buy" value="<%= @ask %> ">Buy</button>
 </form>
 
+<form action="/sign_in" method="post">
+  <button name="sign_in" type="submit" id="sign_in" value="sign_in">Log In</button>
+  <button name="sign_out" type="submit" id="sign_out" value="sign_out">Sign Out</button>
+</form>
+
+<% if flash[:user_id] == nil %>
+
+<h1>Please sign in</h1>
+
+<form action="/signin" method="post">
+  Email: <input name="email_or_username" type="text" >
+  Password: <input name="password" type="password">
+  <input type="submit" value="Sign in">
+</form>
+
+<% end %>
+
+<form action="/sign_up" method="post">
+  <button name="sign_up" type="submit" id="sign_up" value="sign_up">Sign Up</button>
+</form>
+
 <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="../js/quotes.js"></script>
 <script src="../js/interface.js"></script>

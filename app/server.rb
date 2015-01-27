@@ -11,7 +11,7 @@ require_relative 'data_mapper_setup'
 
 require 'byebug'
 
-use Rack::Flash, :accessorize => [:notice, :error,:asset,:price,:bid,:ask, :user, :side]
+use Rack::Flash, :accessorize => [:notice, :error,:asset,:price,:bid,:ask, :user, :side, :user_id]
 use Rack::MethodOverride
 
 set :partial_template_engine, :erb
@@ -47,4 +47,36 @@ post '/' do
    end
 
 
+end
+
+post '/sign_up' do
+  erb :sign_up
+end
+
+post '/newuser' do
+
+  @user = User.create(:email => params[:email],
+  :password => params[:password], :password_confirmation => params[:password_confirmation])
+
+  if @user.save
+    flash[:user_id] = @user.id
+    redirect '/'#erb :index
+  else
+    flash[:errors] = @user.errors.full_message
+    redirect '/'#erb :index
+  end
+end
+
+
+post '/signin' do
+  email,password = params[:email],params[:password]
+  user = User.authenticate_email(email,password)
+  if !user
+    flash[:errors] = ["Wrong email, username or password"]
+    redirect '/'
+  else
+    flash[:user_id] = user.id
+    flash[:notice] = "Welcome back #{user.email.capitalize}"
+    redirect '/'
+  end
 end

@@ -11,37 +11,27 @@ require 'session_helpers'
       expect(page).to have_content("bid")
     end
 
-    # scenario "should see buy button" do
-    #   user = user_create
-    #   asset = asset_create 
-    #   visit '/'
-    #   click_button("Buy")
-    #   # save_and_open_page
-    #   expect(page).to have_content("You just bought")
-    # end
-
-    # scenario "should see sell button" do
-    #   user = user_create
-    #   asset = asset_create 
-    #   visit '/'
-    #   click_button("Sell")
-    #   expect(page).to have_content("You just sold")
-    # end
-
-    # scenario "should record a trade" do
-    #   user = user_create
-    #   asset = asset_create 
-    #   visit '/'
-    #   click_button("Buy")
-    #   expect(Trade.count).to equal(1)
-    # end
-
     scenario "should record a sell trade" do
       user = user_create
-      asset = asset_create 
+      asset = asset_create
       visit '/'
       click_button("Sell")
       expect(Trade.count).to equal(1)
+    end
+
+    scenario "can see sign in button" do
+      visit '/'
+      expect(page).to have_content("Log In")
+    end
+
+    scenario "can see sign out button" do
+      visit '/'
+      expect(page).to have_content("Sign Out")
+    end
+
+    scenario "can see sign up button" do
+      visit '/'
+      expect(page).to have_content("Sign Up")
     end
 
   end
