@@ -11,7 +11,7 @@ require_relative 'data_mapper_setup'
 
 require 'byebug'
 
-use Rack::Flash, :accessorize => [:notice, :error,:asset,:price,:bid,:ask, :user]
+use Rack::Flash, :accessorize => [:notice, :error,:asset,:price,:bid,:ask, :user, :side]
 use Rack::MethodOverride
 
 set :partial_template_engine, :erb
@@ -31,17 +31,20 @@ get '/' do
 end
 
 post '/' do
-   flash[:notice] = "You just bought #{flash[:asset]} at #{flash[:ask]}." if params.first[0] == 'buy'
-   flash[:notice] = "You just sold #{flash[:asset]} at #{flash[:bid]}." if params.first[0] == "sell"
-   asset_id = Asset.first(:name => flash[:asset])
-  # byebug
-   trade = Trade.create(:asset_id => asset_id, :user_id => flash[:user], :price => flash[:bid])
-
+   flash[:side] = params.first[0]
+   flash[:price] = flash[:side] == "sell" ? flash[:bid] : flash[:ask]
+   flash[:notice] = "You just did a #{flash[:side]} of #{flash[:asset]} at #{flash[:price]}."
+   # flash[:notice] = "You just sold #{flash[:asset]} at #{flash[:bid]}." if params.first[0] == "sell"
+   # byebug
+   asset_id = Asset.first(:name => flash[:asset]).id
+   trade = Trade.create(:asset_id => asset_id, :user_id => flash[:user], :price => flash[:price],
+    :quantity => 1, :side => flash[:side])
    if trade.save
      redirect ('/')
    else
      flash[:errors] = "Failed Trade"
+     redirect ('/')
    end
 
-   redirect ('/')
+
 end

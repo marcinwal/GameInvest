@@ -10,6 +10,7 @@ class Trade
   property :price, Float
   property :quantity, Integer
   property :trade_time, DateTime
+  property :side, Text
 
 
 end
