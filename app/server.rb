@@ -20,9 +20,11 @@ set :public, 'public'
 enable :sessions
 
 get '/' do
+  # byebug
+  flash[:user_id] = session[:user_id]
   @asset = "EURUSD=X"
   flash[:asset] = @asset
-  flash[:user] = 1
+  # flash[:user] = 1
   price = get_quote(@asset)
   @bid,@ask = price.bid,price.ask
   flash[:bid],flash[:ask] = @bid,@ask
@@ -37,7 +39,7 @@ post '/' do
    # flash[:notice] = "You just sold #{flash[:asset]} at #{flash[:bid]}." if params.first[0] == "sell"
    # byebug
    asset_id = Asset.first(:name => flash[:asset]).id
-   trade = Trade.create(:asset_id => asset_id, :user_id => flash[:user], :price => flash[:price],
+   trade = Trade.create(:asset_id => asset_id, :user_id => flash[:user_id], :price => flash[:price],
     :quantity => 1, :side => flash[:side])
    if trade.save
      redirect ('/')
@@ -75,7 +77,7 @@ post '/login' do
     flash[:errors] = ["Wrong email, username or password"]
     redirect '/'
   else
-    flash[:user_id] = user.id
+    session[:user_id] = user.id
     flash[:notice] = "Welcome back #{user.email.capitalize}"
     redirect '/'
   end

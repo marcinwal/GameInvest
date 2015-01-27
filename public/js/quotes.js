@@ -1,3 +1,6 @@
+var bid_multiplier = 0.999;
+var ask_multiplier = 1.001;
+
 (function($) {
     function getStock(opts, type, complete) {
         var defs = {
@@ -58,6 +61,8 @@ function drawTable () {
             data.addColumn('string', 'Name');
             data.addColumn('string', 'Symbol');
             data.addColumn('number', 'Price');
+            data.addColumn('number','BID');
+            data.addColumn('number','ASK');
             data.addColumn('date', 'UTC Time');
             
             // parse the JSON into the DataTable
@@ -65,6 +70,8 @@ function drawTable () {
                 var name = json.list.resources[i].resource.fields.name;
                 var symbol = json.list.resources[i].resource.fields.symbol;
                 var price = parseFloat(json.list.resources[i].resource.fields.price);
+                var bid = (bid_multiplier * parseFloat(json.list.resources[i].resource.fields.price));
+                var ask = (ask_multiplier * parseFloat(json.list.resources[i].resource.fields.price));
                 var dateTimeArr = json.list.resources[i].resource.fields.utctime.split('T');
                 var dateArr = dateTimeArr[0].split('-');
                 var year = dateArr[0];
@@ -75,7 +82,7 @@ function drawTable () {
                 var minute = timeArr[1];
                 var second = timeArr[2];
                 
-                data.addRow([name, symbol, price, new Date(year, month, day, hour, minute, second)]);
+                data.addRow([name, symbol, price, (Math.round(bid * 10000))/10000.0, (Math.round(ask*10000))/10000.0, new Date(year, month, day, hour, minute, second)]);
             }
             
             var table = new google.visualization.Table(document.querySelector('#table_div'));
