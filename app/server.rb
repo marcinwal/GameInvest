@@ -21,6 +21,10 @@ enable :sessions
 
 get '/' do
   # byebug
+  response['Access-Control-Allow-Origin'] = '*'   
+  Time.now.to_s
+  #to allow ajax
+
   flash[:user_id] = session[:user_id]
   @asset = "EURUSD=X"
   flash[:asset] = @asset
