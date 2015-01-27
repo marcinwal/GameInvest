@@ -1,6 +1,9 @@
 require 'spec_helper'
+require 'session_helpers'
 
   feature "Initial Page" do
+
+    include SessionHelpers
 
     scenario "should see two quotes" do
       visit '/'
@@ -18,4 +21,12 @@ require 'spec_helper'
       click_button("Sell")
       expect(page).to have_content("You just sold")
     end
+
+    scenario "should record a trade" do
+      visit '/'
+      user = user_create
+      asset = asset_create
+      expect{ click_button("Buy") }.to change(Trade, :count).by(1)
+    end
+
   end

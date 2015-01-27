@@ -11,7 +11,7 @@ require_relative 'data_mapper_setup'
 
 require 'byebug'
 
-use Rack::Flash, :accessorize => [:notice, :error,:asset,:price,:bid,:ask]
+use Rack::Flash, :accessorize => [:notice, :error,:asset,:price,:bid,:ask, :user]
 use Rack::MethodOverride
 
 set :partial_template_engine, :erb
@@ -22,6 +22,7 @@ enable :sessions
 get '/' do
   @asset = "EURUSD=X"
   flash[:asset] = @asset
+  flash[:user] = 1
   price = get_quote(@asset)
   @bid,@ask = price.bid,price.ask
   flash[:bid],flash[:ask] = @bid,@ask
@@ -32,5 +33,15 @@ end
 post '/' do
    flash[:notice] = "You just bought #{flash[:asset]} at #{flash[:ask]}." if params.first[0] == 'buy'
    flash[:notice] = "You just sold #{flash[:asset]} at #{flash[:bid]}." if params.first[0] == "sell"
+   asset_id = Asset.first(:name => flash[:asset])
+  # byebug
+   trade = Trade.create(:asset_id => asset_id, :user_id => flash[:user], :price => flash[:bid])
+
+   if trade.save
+     redirect ('/')
+   else
+     flash[:errors] = "Failed Trade"
+   end
+
    redirect ('/')
 end
