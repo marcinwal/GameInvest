@@ -2,7 +2,7 @@ console.log("Marcin and Richard");
 
 
 
-  
+
 // $('#temperature').text(thermostat.temperature);
 // $('#temperature').attr('class',thermostat.consoleColor());
 // $('#power-text').attr('class',thermostat.consoleColor());
@@ -19,7 +19,7 @@ console.log("Marcin and Richard");
 $(document).ready(function(){
 
   google.load('visualization', '1', {packages:['table'], callback: drawTable});
-  
+
 
   // $('.increase-temp').on('click', function(){
   //     thermostat.up();
@@ -42,5 +42,9 @@ $(document).ready(function(){
   // });
 });
 
+setInterval(function(){
+  getQuote('EURUSD=X');
+  $('#bid').text(price);
+}, 5000
 
-
+);

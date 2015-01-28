@@ -2,12 +2,26 @@ var bid_multiplier = 0.999;
 var ask_multiplier = 1.001;
 var assets = ["EURUSD=X","GBPUSD=X","AUDUSD=X","XAU=X","XAG=X"];
 var qry_symbols = assets.join(",");
-var url_yahoo = "http://finance.yahoo.com/webservice/v1/symbols/"+qry_symbols+"/quote?format=json"
+var url_yahoo = "http://finance.yahoo.com/webservice/v1/symbols/"+qry_symbols+"/quote?format=json";
+var price;
 // var prices[]
 // (
 
 //http://jsfiddle.net/asgallant/dSWe7/
 
+function getQuote (quote) {
+//
+$.ajax({
+  url: "http://finance.yahoo.com/webservice/v1/symbols/"+quote+"/quote?format=json",
+  dataType: 'jsonp',
+  success: function (json) {
+    price = parseFloat(json.list.resources[0].resource.fields.price);
+  // return parseFloat(json.list.resources[0].resource.fields.price);
+  }
+//
+});
+//
+};
 
 function drawTable () {
     // use jQuery to make an AJAX request for data
@@ -22,7 +36,7 @@ function drawTable () {
             data.addColumn('number','BID');
             data.addColumn('number','ASK');
             data.addColumn('date', 'UTC Time');
-            
+
             // parse the JSON into the DataTable
             for (var i = 0; i < json.list.resources.length; i++) {
                 var name = json.list.resources[i].resource.fields.name;
@@ -39,10 +53,10 @@ function drawTable () {
                 var hour = timeArr[0];
                 var minute = timeArr[1];
                 var second = timeArr[2];
-                
+
                 data.addRow([name, symbol, price, (Math.round(bid * 10000))/10000.0, (Math.round(ask*10000))/10000.0, new Date(year, month, day, hour, minute, second)]);
             }
-            
+
             var table = new google.visualization.Table(document.querySelector('#table_div'));
             table.draw(data);
         }
@@ -64,21 +78,21 @@ function drawTable () {
 //                 historicaldata: '&env=store://datatables.org/alltableswithkeys&format=json&callback=?'
 //             }
 //         };
- 
+
 //         opts = opts || {};
- 
+
 //         if (!opts.stock) {
 //             complete('No stock defined');
 //             return;
 //         }
- 
+
 //         var query = defs.query[type]
 //         .replace('{stock}', opts.stock)
 //         .replace('{sortBy}', defs.sortBy)
 //         .replace('{desc}', defs.desc)
 //         .replace('{startDate}', opts.startDate)
 //         .replace('{endDate}', opts.endDate)
- 
+
 //         var url = defs.baseURL + query + (defs.suffixURL[type] || '');
 //         $.getJSON(url, function(data) {
 //             var err = null;
@@ -96,4 +110,3 @@ function drawTable () {
 //     return data
 //   });
 // };
-
