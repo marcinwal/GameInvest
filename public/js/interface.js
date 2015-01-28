@@ -1,20 +1,6 @@
 console.log("Marcin and Richard");
+var tmp;
 
-
-
-
-// $('#temperature').text(thermostat.temperature);
-// $('#temperature').attr('class',thermostat.consoleColor());
-// $('#power-text').attr('class',thermostat.consoleColor());
-// if (thermostat.savingMode)
-// {
-//   $('.PWS-mode').text('power mode: on');
-// }else
-// {
-//   $('.PWS-mode').text('power mode: off');
-// }
-
-// };
 
 pullQuotes = function(){
   getQuote('EURUSD=X');
@@ -27,35 +13,25 @@ pullQuotes = function(){
   }    
 };
 
+$('#sell').on('click',function(){
+  tmp = document.getElementById('bid');
+  $.get(
+    "localhost",
+    {side: "sell", price: tmp.textContent});
+});
+
+$('#buy').on('click',function(){
+  tmp = document.getElementById('ask');
+  $.get(
+    "localhost",
+    {side: "buy", price: tmp.textContent});
+});
+
 $(document).ready(function(){
   pullQuotes();
   google.load('visualization', '1', {packages:['table'], callback: drawTable});
-
-
-
-  // $('.increase-temp').on('click', function(){
-  //     thermostat.up();
-  //     updateTemperature();
-  // });
-
-  // $('.decrease-temp').on('click', function(){
-  //     thermostat.down();
-  //     updateTemperature();
-  // });
-
-  // $('.reset').on('click', function(){
-  //   thermostat.reset();
-  //   updateTemperature();
-  // });
-
-  // $('.PWS-mode').on('click',function(){
-  //   thermostat.changeSaveMode();
-  //   updateTemperature();
-  // });
 });
 
 setInterval(function(){
   pullQuotes(); 
-}, 5000
-
-);
+}, 5000);

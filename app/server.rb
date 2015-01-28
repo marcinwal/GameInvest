@@ -32,6 +32,7 @@ get '/' do
 end
 
 post '/' do
+   byebug
    flash[:side] = params.first[0]
    flash[:price] = flash[:side] == "sell" ? flash[:bid] : flash[:ask]
    flash[:notice] = "You just did a #{flash[:side]} of #{flash[:asset]} at #{flash[:price]}."
