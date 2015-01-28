@@ -16,9 +16,21 @@ console.log("Marcin and Richard");
 
 // };
 
-$(document).ready(function(){
+pullQuotes = function(){
+  getQuote('EURUSD=X');
+  var bid = Math.round(10000 * price * bid_multiplier)/10000.0;
+  var ask = Math.round(10000 * price * ask_multiplier)/10000.0;
+  // if ((!bid.isNaN()) && (!ask.isNaN()))
+  {
+    $('#bid').text(bid);
+    $('#ask').text(ask);
+  }    
+};
 
+$(document).ready(function(){
+  pullQuotes();
   google.load('visualization', '1', {packages:['table'], callback: drawTable});
+
 
 
   // $('.increase-temp').on('click', function(){
@@ -43,8 +55,7 @@ $(document).ready(function(){
 });
 
 setInterval(function(){
-  getQuote('EURUSD=X');
-  $('#bid').text(price);
+  pullQuotes(); 
 }, 5000
 
 );
