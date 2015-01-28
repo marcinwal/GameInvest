@@ -1,6 +1,8 @@
 console.log("Marcin and Richard");
 var tmp;
 
+var SERVER_PATH = "/";
+
 
 pullQuotes = function(){
   getQuote('EURUSD=X');
@@ -10,22 +12,12 @@ pullQuotes = function(){
   {
     $('#bid').text(bid);
     $('#ask').text(ask);
-  }    
+    $('#price_bid').val(bid);
+    $('#price_ask').val(ask);
+
+
+  }
 };
-
-$('#sell').on('click',function(){
-  tmp = document.getElementById('bid');
-  $.get(
-    "localhost",
-    {side: "sell", price: tmp.textContent});
-});
-
-$('#buy').on('click',function(){
-  tmp = document.getElementById('ask');
-  $.get(
-    "localhost",
-    {side: "buy", price: tmp.textContent});
-});
 
 $(document).ready(function(){
   pullQuotes();
@@ -33,5 +25,5 @@ $(document).ready(function(){
 });
 
 setInterval(function(){
-  pullQuotes(); 
+  pullQuotes();
 }, 5000);
