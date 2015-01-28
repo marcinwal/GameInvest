@@ -21,14 +21,9 @@ enable :sessions
 
 get '/' do
   # byebug
-  response['Access-Control-Allow-Origin'] = '*'   
-  Time.now.to_s
-  #to allow ajax
-
   flash[:user_id] = session[:user_id]
   @asset = "EURUSD=X"
   flash[:asset] = @asset
-  # flash[:user] = 1
   price = get_quote(@asset)
   @bid,@ask = price.bid,price.ask
   flash[:bid],flash[:ask] = @bid,@ask
@@ -40,8 +35,6 @@ post '/' do
    flash[:side] = params.first[0]
    flash[:price] = flash[:side] == "sell" ? flash[:bid] : flash[:ask]
    flash[:notice] = "You just did a #{flash[:side]} of #{flash[:asset]} at #{flash[:price]}."
-   # flash[:notice] = "You just sold #{flash[:asset]} at #{flash[:bid]}." if params.first[0] == "sell"
-   # byebug
    asset_id = Asset.first(:name => flash[:asset]).id
    trade = Trade.create(:asset_id => asset_id, :user_id => flash[:user_id], :price => flash[:price],
     :quantity => 1, :side => flash[:side])
@@ -73,6 +66,11 @@ post '/newuser' do
   end
 end
 
+post '/sign_out' do 
+  flash[:notice] = "Good bye!"
+  session[:user_id] = nil
+  redirect '/'
+end
 
 post '/login' do
   email,password = params[:email],params[:password]
