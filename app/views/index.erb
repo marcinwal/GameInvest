@@ -10,15 +10,21 @@ Live bid is: <p id="bid"></p> Live ask is: <p id="ask"></p>
 <%= flash[:notice] %>
 <% end %>
 
-<form action="/" method="post">
-  <button name="sell" type="submit" id="sell" value="<%= @bid %>">Sell</button>
-  <button name="buy" type="submit" id="buy" value="<%= @ask %> ">Buy</button>
-</form>
+<% if flash[:user_id] != nil %>
+  <form action="/" method="post">
+    <button name="side" type="submit" id="sell" value="Sell">Sell</button>
+    <button name="side" type="submit" id="buy" value="Buy">Buy</button>
+    <input type="hidden" name="price_bid" id="price_bid" >
+    <input type="hidden" name="price_ask" id="price_ask" >
+  </form>
+<% end %>  
 
-<form action="/sign_out" method="post">
+<% if flash[:user_id] != nil %>
+  <form action="/sign_out" method="post">
   <!--<button name="sign_in" type="submit" id="sign_in" value="sign_in">Log In</button>-->
-  <button name="sign_out" type="submit" id="sign_out" value="sign_out">Sign Out</button>
-</form>
+    <button name="sign_out" type="submit" id="sign_out" value="sign_out">Sign Out</button>
+  </form>
+<% end %>  
 
 <% if flash[:user_id] == nil %>
 
