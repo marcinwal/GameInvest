@@ -81,7 +81,7 @@ post '/login' do
   email,password = params[:email],params[:password]
   user = User.authenticate_email(email,password)
   if !user
-    flash[:errors] = ["Wrong email, username or password"]
+    flash[:errors] = ["Wrong email or password"]
     redirect '/'
   else
     session[:user_id] = user.id
