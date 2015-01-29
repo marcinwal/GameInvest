@@ -16,11 +16,8 @@ $.ajax({
   dataType: 'jsonp',
   success: function (json) {
     price = parseFloat(json.list.resources[0].resource.fields.price);
-  // return parseFloat(json.list.resources[0].resource.fields.price);
   }
-//
 });
-//
 };
 
 function drawTable () {

@@ -8,8 +8,9 @@ require 'yahoo_finance'
 require_relative 'helpers/application'
 require_relative 'data_mapper_setup'
 
+ASSETS = ["EURUSD=X","GBPUSD=X","AUDUSD=X","XAU=X","XAG=X"]
 
-require 'byebug'
+require 'byebug '
 
 use Rack::Flash, :accessorize => [:notice, :error,:asset,:price,:bid,:ask, :user, :side, :user_id]
 use Rack::MethodOverride
@@ -32,8 +33,10 @@ get '/' do
 end
 
 post '/' do
-   byebug
-   flash[:side] = params.first[0]
+   # byebug
+   flash[:side] = params[:side]
+   flash[:bid] = params[:price_bid]
+   flash[:ask] = params[:price_ask]
    flash[:price] = flash[:side] == "sell" ? flash[:bid] : flash[:ask]
    flash[:notice] = "You just did a #{flash[:side]} of #{flash[:asset]} at #{flash[:price]}."
    asset_id = Asset.first(:name => flash[:asset]).id
@@ -41,6 +44,7 @@ post '/' do
     :quantity => 1, :side => flash[:side])
    if trade.save
      redirect ('/')
+     flash[:errors] = ""
    else
      flash[:errors] = "Failed Trade"
      redirect ('/')
@@ -68,7 +72,7 @@ post '/newuser' do
 end
 
 post '/sign_out' do 
-  flash[:notice] = "Good bye!"
+  flash[:notice] = "Good bye! #{User.first(:id => session[:user_id]).email.capitalize}"
   session[:user_id] = nil
   redirect '/'
 end

@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
 <h1> Welcome player </h1>
-<!--Your quote for <%= @asset[0..5] %> is: bid:<%= @bid %> ask:<%= @ask %> Last trade at:<%= @last_trade_price %><br>-->
 Live bid is: <p id="bid"></p> Live ask is: <p id="ask"></p>
 
 <div id="images"></div>
@@ -12,35 +11,34 @@ Live bid is: <p id="bid"></p> Live ask is: <p id="ask"></p>
 
 <% if flash[:user_id] != nil %>
   <form action="/" method="post">
-    <button name="side" type="submit" id="sell" value="Sell">Sell</button>
-    <button name="side" type="submit" id="buy" value="Buy">Buy</button>
-    <input type="hidden" name="price_bid" id="price_bid" >
-    <input type="hidden" name="price_ask" id="price_ask" >
+    <button name="side" type="submit" id="sell" value="sell">Sell</button>
+    <button name="side" type="submit" id="buy" value="buy">Buy</button>
+    <input type="hidden" name="price_bid" id="price_bid">
+    <input type="hidden" name="price_ask" id="price_ask">
   </form>
 <% end %>  
 
 <% if flash[:user_id] != nil %>
   <form action="/sign_out" method="post">
-  <!--<button name="sign_in" type="submit" id="sign_in" value="sign_in">Log In</button>-->
     <button name="sign_out" type="submit" id="sign_out" value="sign_out">Sign Out</button>
   </form>
 <% end %>  
 
 <% if flash[:user_id] == nil %>
 
-<h1>Please sign in</h1>
+  <h1>Please sign in/up</h1>
 
-<form action="/login" method="post">
-  Email: <input name="email" type="text" >
-  Password: <input name="password" type="password">
-  <input type="submit" value="Sign in">
-</form>
+  <form action="/login" method="post">
+    Email: <input name="email" type="text" >
+    Password: <input name="password" type="password">
+    <input type="submit" value="Sign in">
+  </form>
+
+  <form action="/sign_up" method="post">
+   <button name="sign_up" type="submit" id="sign_up" value="sign_up">Sign Up</button>
+  </form>
 
 <% end %>
-
-<form action="/sign_up" method="post">
-  <button name="sign_up" type="submit" id="sign_up" value="sign_up">Sign Up</button>
-</form>
 
 <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="../js/quotes.js"></script>
