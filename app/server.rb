@@ -10,7 +10,7 @@ require_relative 'data_mapper_setup'
 
 ASSETS = ["EURUSD=X","GBPUSD=X","AUDUSD=X","XAU=X","XAG=X"]
 
-require 'byebug '
+require 'byebug'
 
 use Rack::Flash, :accessorize => [:notice, :error,:asset,:price,:bid,:ask, :user, :side, :user_id]
 use Rack::MethodOverride
